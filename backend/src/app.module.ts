@@ -3,6 +3,8 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { UsersModule } from './users/users.module';
 import { CampaignsModule } from './campaigns/campaigns.module';
+// import { SubmissionsModule } from './submissions/submissions.module';
+import { BrandsModule } from './brands/brands.module';
 import { SubmissionsModule } from './submissions/submissions.module';
 import config from './config';
 
@@ -15,7 +17,8 @@ import config from './config';
       useFactory: (configService: ConfigService) => ({
         uri: configService.get<string>('mongodb+srv://rebeccanayere:Nayers@12@acif.qhwrw.mongodb.net/?retryWrites=true&w=majority&appName=Acif'),
       }),
-    }), UsersModule, CampaignsModule, SubmissionsModule,
+    }), UsersModule, CampaignsModule, BrandsModule, SubmissionsModule
+    ,
   ],
 })
 export class AppModule {}
