@@ -16,7 +16,7 @@ import config from './config';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
-        uri: configService.get<string>('MONGO_URI'), // Get from .env
+        uri: configService.get<string>('mongodb+srv://rebeccanayere:Nayers@12@acif.qhwrw.mongodb.net/?retryWrites=true&w=majority&appName=Acif'), // Get from .env
       }),
     }),
     UsersModule,
