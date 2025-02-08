@@ -7,7 +7,8 @@ import { Public } from './decorators/public.decorator';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Public()  // 👈 This route is PUBLIC (No JWT needed)
+  @Public() 
+  // @Controller('auth')  // 👈 This route is PUBLIC (No JWT needed)
   @Get('public-route')
   getPublicData() {
     return { message: 'This is a public endpoint' };

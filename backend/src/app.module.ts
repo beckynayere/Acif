@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
+import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { UsersModule } from './users/users.module';
 import { CampaignsModule } from './campaigns/campaigns.module';
@@ -12,6 +13,7 @@ import { JwtStrategy } from './auth/strategy/jwt.strategy';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtGuard } from './auth/guards/jwt.guard';
 import config from './config';
+import { AppController } from './app.controller';
 
 @Module({
   imports: [
@@ -24,8 +26,19 @@ import config from './config';
       }),
     }),
     UsersModule,
+    AuthModule,
     CampaignsModule,
     SubmissionsModule,
+  ],
+  controllers: [ AppController],
+    providers: [
+      AppService,
+      {
+        provide: APP_GUARD,
+        useClass: JwtGuard,
+      },
+      JwtStrategy,
+    ],
     MongooseModule.forFeature([
       { name: User.name, schema: UserSchema },
       { name: Campaign.name, schema: CampaignSchema },
