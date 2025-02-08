@@ -3,7 +3,7 @@ import { PassportStrategy } from '@nestjs/passport';
 import { Strategy, ExtractJwt } from 'passport-jwt';
 import { ConfigService } from '@nestjs/config';
 import { AccessTokenPayload } from '../types/AccessTokenPayload';
-import { User } from '../../users/schemas/user.schema/user.schema';
+import { User } from '../../users/schemas/user.schema';
 import { UsersService } from '../../users/users.service';
 // import { UserSchema } from 'src/users/schemas/user.schema/user.schema';
 

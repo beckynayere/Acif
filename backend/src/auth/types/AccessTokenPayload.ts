@@ -3,4 +3,6 @@ export interface AccessTokenPayload {
     email: string;
     role: string;
   }
-  
+  export type AccessToken = {
+    access_token: string;
+};
