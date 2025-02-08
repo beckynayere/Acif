@@ -7,6 +7,10 @@ import { SubmissionsModule } from './submissions/submissions.module';
 import { User, UserSchema } from './users/schemas/user.schema';
 import { Campaign, CampaignSchema } from './campaigns/schemas/campaign.schema';
 import { Submission, SubmissionSchema } from './submissions/schemas/submission.schema';
+import { AuthModule } from './auth/auth.module';
+import { JwtStrategy } from './auth/strategy/jwt.strategy';
+import { APP_GUARD } from '@nestjs/core';
+import { JwtGuard } from './auth/guards/jwt.guard';
 import config from './config';
 
 @Module({
