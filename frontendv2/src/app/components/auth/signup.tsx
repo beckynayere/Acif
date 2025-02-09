@@ -6,7 +6,7 @@ function Signup() {
       <div className="flex flex-col min-w-[600px]  text-blue-500 border-[1px] border-gray-300 rounded-md">
         <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
           <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl  ">
-            Signup for an Account
+            Signup for an ACIF Account
           </h1>
           <form className="space-y-4 md:space-y-6" action="#">
             {/* Name Field */}

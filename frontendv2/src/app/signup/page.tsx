@@ -5,7 +5,7 @@ export const metadata = {
   title: "ACIF Signup",
   description: "Create your ACIF Account",
 };
-function index(props) {
+function index(props: any) {
   return <Signup />;
 }
 
