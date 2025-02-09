@@ -24,9 +24,20 @@ export class CampaignService {
     return campaign;
   }
 
+  // async update(id: string, updateData: Partial<Campaign>): Promise<CampaignDocument | null> {
+  //   return this.campaignModel.findByIdAndUpdate(id, updateData, { new: true }).exec();
+  // }
+
   async update(id: string, updateData: Partial<Campaign>): Promise<CampaignDocument | null> {
-    return this.campaignModel.findByIdAndUpdate(id, updateData, { new: true }).exec();
+    const updatedCampaign = await this.campaignModel.findByIdAndUpdate(id, updateData, { new: true }).exec();
+    if (!updatedCampaign) throw new NotFoundException('Campaign not found');
+    return updatedCampaign;
   }
+  
+  async findInfluencerCampaigns(influencerId: string): Promise<CampaignDocument[]> {
+    return this.campaignModel.find({ influencers: influencerId }).exec();
+  }
+  
 
   async delete(id: string): Promise<CampaignDocument | null> {
     return this.campaignModel.findByIdAndDelete(id).exec();

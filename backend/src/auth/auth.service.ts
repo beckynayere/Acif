@@ -39,15 +39,6 @@ export class AuthService {
     return { access_token: this.jwtService.sign(payload) };
   }
 
-  // private generateToken(user: UserDocument): AccessToken {
-  //   const payload: AccessTokenPayload = {
-  //     email: user.email,
-  //     sub: user._id.toString(),  // 👈 Ensure `sub` is always a string
-  //     role: user.role,
-  //   };
-  
-  //   return { access_token: this.jwtService.sign(payload) };
-  // }
   /**
    * Handles user login by validating credentials and returning a JWT.
    */
