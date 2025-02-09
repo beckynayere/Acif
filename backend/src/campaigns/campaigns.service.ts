@@ -1,26 +1,34 @@
-import { Injectable } from '@nestjs/common';
-import { CreateCampaignDto } from './dto/create-campaign.dto';
-import { UpdateCampaignDto } from './dto/update-campaign.dto';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { Campaign } from './entities/campaign.entity';
+import { CampaignDocument } from './schemas/campaign.schema';
 
 @Injectable()
-export class CampaignsService {
-  create(createCampaignDto: CreateCampaignDto) {
-    return 'This action adds a new campaign';
+export class CampaignService {
+  constructor(
+    @InjectModel(Campaign.name) private campaignModel: Model<CampaignDocument>,
+  ) {}
+
+  async create(data: Partial<Campaign>): Promise<CampaignDocument> {
+    return new this.campaignModel(data).save();
   }
 
-  findAll() {
-    return `This action returns all campaigns`;
+  async findAll(): Promise<CampaignDocument[]> {
+    return this.campaignModel.find().exec();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} campaign`;
+  async findOne(id: string): Promise<CampaignDocument> {
+    const campaign = await this.campaignModel.findById(id).exec();
+    if (!campaign) throw new NotFoundException('Campaign not found');
+    return campaign;
   }
 
-  update(id: number, updateCampaignDto: UpdateCampaignDto) {
-    return `This action updates a #${id} campaign`;
+  async update(id: string, updateData: Partial<Campaign>): Promise<CampaignDocument | null> {
+    return this.campaignModel.findByIdAndUpdate(id, updateData, { new: true }).exec();
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} campaign`;
+  async delete(id: string): Promise<CampaignDocument | null> {
+    return this.campaignModel.findByIdAndDelete(id).exec();
   }
 }

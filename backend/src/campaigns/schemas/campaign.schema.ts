@@ -1,5 +1,3 @@
-// export class CampaignSchema {}
-
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
 
@@ -21,5 +19,4 @@ export class Campaign {
 }
 
 export const CampaignSchema = SchemaFactory.createForClass(Campaign);
-
 CampaignSchema.index({ title: 1 }, { unique: true });

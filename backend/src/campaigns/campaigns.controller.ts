@@ -1,11 +1,12 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { CampaignsService } from './campaigns.service';
+
 import { CreateCampaignDto } from './dto/create-campaign.dto';
 import { UpdateCampaignDto } from './dto/update-campaign.dto';
+import { CampaignService } from './campaigns.service';
 
 @Controller('campaigns')
 export class CampaignsController {
-  constructor(private readonly campaignsService: CampaignsService) {}
+  constructor(private readonly campaignsService: CampaignService) {}
 
   @Post()
   create(@Body() createCampaignDto: CreateCampaignDto) {
@@ -19,16 +20,16 @@ export class CampaignsController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.campaignsService.findOne(+id);
+    return this.campaignsService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateCampaignDto: UpdateCampaignDto) {
-    return this.campaignsService.update(+id, updateCampaignDto);
+    return this.campaignsService.update(id, updateCampaignDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.campaignsService.remove(+id);
+    return this.campaignsService.delete(id);
   }
 }
