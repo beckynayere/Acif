@@ -3,7 +3,8 @@ export const metadata = {
   title: "Influencers",
   description: "",
 };
-function layout(props) {
+
+function layout(props: any) {
   return <div>{props.children}</div>;
 }
 

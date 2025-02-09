@@ -3,11 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
-export default function InfluencersPage({
-  params,
-}: {
-  params: { id: string };
-}) {
+export default function InfluencersPage({ params }: any) {
   const [influencers, setInfluencers] = useState([]);
 
   useEffect(() => {

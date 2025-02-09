@@ -14,9 +14,8 @@ async function getCampaignDetails(id: string) {
   return res.json();
 }
 
-export async function generateMetadata({ params }: { params: { id: string } }) {
+export async function generateMetadata({ params }: any) {
   const campaign = await getCampaignDetails(params.id);
-
 
   if (!campaign) {
     return {
@@ -30,7 +29,7 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
   };
 }
 // The dynamic page component
-export default function CampaignDetail({ params }: { params: { id: string } }) {
+export default function CampaignDetail({ params }: any) {
   const campaign = campaigns.find((c) => c.id === params.id);
 
   if (!campaign) {
