@@ -6,6 +6,11 @@ config();
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  await app.listen(process.env.PORT ?? 3000);
+  app.enableCors({
+    origin: '*', // Change this to your frontend URL in production
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+  });
+  await app.listen(3000);
 }
 bootstrap();

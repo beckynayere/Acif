@@ -6,12 +6,34 @@ import { Public } from './auth/decorators/public.decorator';
 import { User as UserDecorator } from './auth/decorators/user.decorator';
 import { AccessTokenPayload } from './auth/types/AccessTokenPayload';
 
+
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
-  @Get()
-  async getHello(@Request() req): Promise<string> {
-    const accessTokenPayload: AccessTokenPayload =
-      req.user as AccessTokenPayload;
-    return await this.appService.getHello(accessTokenPayload.userId);
+
+  //@Public()
+  @Get('public')
+  getPublicHello(): string {
+    return 'Hello this is a public route';
+    
   }
+
+  //@UseGuards(JwtGuard)
+  @Get()
+  // async getHello(@UserDecorator() user: AccessTokenPayload): Promise<string> {
+  //   return await this.appService.getHello(String(user.sub));
+
+    async getHello(@UserDecorator() user: AccessTokenPayload): Promise<string> {
+      console.log('Extracted User:', user); // Debugging step
+      
+      if (!user || typeof user.sub !== 'string') {
+        throw new Error('Invalid token payload: Missing or incorrect sub field');
+      }
+    
+      return await this.appService.getHello(user.sub);
+    }
+    
+    // return await this.appService.getHello(user.sub);
+    // return await this.appService.getHello(user.userId);
+  }
+

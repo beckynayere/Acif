@@ -1,80 +1,36 @@
-import { 
-  Controller, Get, Post, Body, Patch, Param, Delete, Query, UseGuards 
-} from '@nestjs/common';
+import { Controller, Get, Param, Put, Delete, Query, Body, UseGuards, NotFoundException } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { CreateUserDto } from './dto/create-user.dto';
+import { User } from './schemas/user.schema';
+import { JwtGuard } from '../auth/guards/jwt.guard';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { JwtGuard } from '../auth/jwt.guard';
 
+@UseGuards(JwtGuard)
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto);
-  }
-
   @Get()
-  @UseGuards(JwtGuard)
-  findAll(@Query('page') page = '1', @Query('limit') limit = '10') {
+  async getUsers(@Query('page') page = '1', @Query('limit') limit = '10') {
     return this.usersService.findAll(parseInt(page), parseInt(limit));
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  async getUser(@Param('id') id: string) {
     return this.usersService.findOne(id);
   }
 
   @Get('email/:email')
-  findByEmail(@Param('email') email: string) {
-    return this.usersService.findByEmail(email);
+  async getUserByEmail(@Param('email') email: string) {
+    return this.usersService.findOneByEmail(email);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+  @Put(':id')
+  async updateUser(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.update(id, updateUserDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  async deleteUser(@Param('id') id: string) {
     return this.usersService.remove(id);
   }
 }
-
-
-
-// import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-// import { UsersService } from './users.service';
-// import { CreateUserDto } from './dto/create-user.dto';
-// import { UpdateUserDto } from './dto/update-user.dto';
-
-// @Controller('users')
-// export class UsersController {
-//   constructor(private readonly usersService: UsersService) {}
-
-//   @Post()
-//   create(@Body() createUserDto: CreateUserDto) {
-//     return this.usersService.create(createUserDto);
-//   }
-
-//   @Get()
-//   findAll() {
-//     return this.usersService.findAll();
-//   }
-
-//   @Get(':id')
-//   findOne(@Param('id') id: string) {
-//     return this.usersService.findOne(+id);
-//   }
-
-//   @Patch(':id')
-//   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-//     return this.usersService.update(+id, updateUserDto);
-//   }
-
-//   @Delete(':id')
-//   remove(@Param('id') id: string) {
-//     return this.usersService.remove(+id);
-//   }
-// }
