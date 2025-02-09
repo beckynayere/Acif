@@ -1,5 +1,3 @@
-// export class SubmissionSchema {}
-
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
 
@@ -7,18 +5,26 @@ export type SubmissionDocument = Submission & Document;
 
 @Schema({ timestamps: true })
 export class Submission {
-  @Prop({ required: true, type: Types.ObjectId, ref: 'User' })
-  influencer: Types.ObjectId;
-
-  @Prop({ required: true, type: Types.ObjectId, ref: 'Campaign' })
+  @Prop({ type: Types.ObjectId, ref: 'Campaign', required: true })
   campaign: Types.ObjectId;
 
-  @Prop({ required: true })
-  contentUrl: string; // e.g., a TikTok or Instagram post link
+  @Prop({ type: Types.ObjectId, ref: 'User', required: true })
+  influencer: Types.ObjectId;
 
-  @Prop({ default: 'pending', enum: ['pending', 'approved', 'rejected'] })
-  status: string;
+  @Prop({ required: true })
+  contentUrl: string; // URL to the social media post
+
+  @Prop({ enum: ['pending', 'approved', 'rejected'], default: 'pending' })
+  status: string; // Submission status
+
+  @Prop()
+  engagement: number; // Estimated engagement (likes, shares, etc.)
+
+  @Prop({ type: Date, default: Date.now })
+  createdAt: Date; // Explicitly defining createdAt
+
+  @Prop({ type: Date, default: Date.now })
+  updatedAt: Date; // Explicitly defining updatedAt
 }
 
 export const SubmissionSchema = SchemaFactory.createForClass(Submission);
-// SubmissionSchema.index({ influencer: 1, campaign: 1 }, { unique: true });

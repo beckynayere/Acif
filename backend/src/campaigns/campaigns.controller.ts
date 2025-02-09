@@ -1,5 +1,6 @@
 import { 
-  Controller, Get, Post, Body, Patch, Param, Delete, Query, NotFoundException 
+  Controller, Get, Post, Body, Patch, Param, Delete, Query, NotFoundException, 
+  BadRequestException
 } from '@nestjs/common';
 import { CampaignService } from './campaigns.service';
 import { CreateCampaignDto } from './dto/create-campaign.dto';
@@ -34,18 +35,34 @@ export class CampaignsController {
   }
 
   // Submit content for a campaign
+  // @Post(':id/submit')
+  // submitContent(
+  //   @Param('id') id: string,
+  //   @Body('userId') userId: string,
+  //   @Body('submissionLink') submissionLink: string
+  // ) {
+  //   if (!submissionLink) {
+  //     throw new NotFoundException('Submission link is required.');
+  //   }
+  //   return this.campaignsService.submitContent(id, userId, submissionLink);
+  // }
   @Post(':id/submit')
-  submitContent(
+  async submitContent(
     @Param('id') id: string,
-    @Body('userId') userId: string,
-    @Body('submissionLink') submissionLink: string
+    @Body() body: { userId: string; submissionLink: string }
   ) {
-    if (!submissionLink) {
-      throw new NotFoundException('Submission link is required.');
+    const { userId, submissionLink } = body;
+  
+    if (!userId) {
+      throw new BadRequestException('User ID (influencer) is required.');
     }
+    if (!submissionLink) {
+      throw new BadRequestException('Submission link is required.');
+    }
+  
     return this.campaignsService.submitContent(id, userId, submissionLink);
   }
-
+  
   // Approve or reject submission
   @Patch(':id/approve')
   approveSubmission(
