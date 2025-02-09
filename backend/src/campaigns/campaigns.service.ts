@@ -36,10 +36,17 @@ export class CampaignService {
   }
 
   //  Find all campaigns an influencer is part of
+  // async findByInfluencer(influencerId: string): Promise<CampaignDocument[]> {
+  //   return this.campaignModel.find({ influencers: influencerId }).exec();
+  // }
+//  Find all campaigns an influencer is part of
   async findByInfluencer(influencerId: string): Promise<CampaignDocument[]> {
-    return this.campaignModel.find({ influencers: influencerId }).exec();
+    return this.campaignModel
+      .find({ influencers: { $in: [influencerId] } }) // Matches influencer in array
+      .populate('influencers', 'name email') // Fetch influencer details
+      .exec();
   }
-
+  
   // Influencer submits content for a campaign
   async submitContent(campaignId: string, userId: string, submissionLink: string): Promise<SubmissionDocument> {
     const submission = new this.submissionModel({
